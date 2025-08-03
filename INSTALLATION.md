@@ -3,12 +3,12 @@
 ## Method 1: Manual Upload
 
 1. **Download the Plugin**
-   - Download the `elementor-widgets-analyzer` folder
+   - Download the `widgets-analyzer-for-elementor` folder
    - Or copy the entire folder to your computer
 
 2. **Upload to WordPress**
-   - Upload the `elementor-widgets-analyzer` folder to `/wp-content/plugins/`
-   - The path should be: `/wp-content/plugins/elementor-widgets-analyzer/`
+   - Upload the `widgets-analyzer-for-elementor` folder to `/wp-content/plugins/`
+   - The path should be: `/wp-content/plugins/widgets-analyzer-for-elementor/`
 
 3. **Activate the Plugin**
    - Go to WordPress Admin → Plugins → Installed Plugins
@@ -18,8 +18,8 @@
 ## Method 2: ZIP Upload
 
 1. **Create ZIP File**
-   - Zip the `elementor-widgets-analyzer` folder
-   - Name it `elementor-widgets-analyzer.zip`
+   - Zip the `widgets-analyzer-for-elementor` folder
+   - Name it `widgets-analyzer-for-elementor.zip`
 
 2. **Upload via WordPress**
    - Go to WordPress Admin → Plugins → Add New
