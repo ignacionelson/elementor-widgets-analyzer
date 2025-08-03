@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: Elementor Widgets Analyzer
- * Plugin URI: https://github.com/ignacionelson/elementor-widgets-analyzer
+ * Plugin Name: Widgets Analyzer for Elementor
+ * Plugin URI: https://github.com/ignacionelson/widgets-analyzer-for-elementor
  * Description: Analyze and track Elementor widgets usage across all content types in your WordPress site. Built with Cursor.
  * Version: 1.0.0
  * Author: Ignacio Nelson
  * Author URI: https://www.subwaydesign.com.ar
  * License: GPL v2 or later
- * Text Domain: elementor-widgets-analyzer
+ * Text Domain: widgets-analyzer-for-elementor
  * Domain Path: /languages
  */
 
@@ -23,7 +23,7 @@ define('EWA_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('EWA_PLUGIN_VERSION', '1.0.0');
 
 // Include required files
-require_once EWA_PLUGIN_DIR . 'includes/class-elementor-widgets-analyzer.php';
+require_once EWA_PLUGIN_DIR . 'includes/class-widgets-analyzer-for-elementor.php';
 require_once EWA_PLUGIN_DIR . 'includes/class-ewa-database.php';
 require_once EWA_PLUGIN_DIR . 'includes/class-ewa-analyzer.php';
 require_once EWA_PLUGIN_DIR . 'includes/class-ewa-admin.php';
@@ -34,14 +34,14 @@ function ewa_init() {
     if (!did_action('elementor/loaded')) {
         add_action('admin_notices', function() {
             echo '<div class="notice notice-error"><p>' . 
-                 __('Elementor Widgets Analyzer requires Elementor to be installed and activated.', 'elementor-widgets-analyzer') . 
+                 __('Widgets Analyzer for Elementor requires Elementor to be installed and activated.', 'widgets-analyzer-for-elementor') . 
                  '</p></div>';
         });
         return;
     }
     
     // Initialize the main plugin class
-    new Elementor_Widgets_Analyzer();
+    new Widgets_Analyzer_For_Elementor();
 }
 add_action('plugins_loaded', 'ewa_init');
 

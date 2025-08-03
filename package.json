@@ -1,0 +1,26 @@
+{
+  "name": "widgets-analyzer-for-elementor",
+  "version": "1.0.0",
+  "description": "A comprehensive WordPress plugin that analyzes and tracks Elementor widget usage across all content types in your WordPress site.",
+  "main": "index.js",
+  "scripts": {
+    "install-deps": "npm install",
+    "update-chartjs": "cp node_modules/chart.js/dist/chart.umd.js assets/js/chart.js",
+    "build": "npm run install-deps && npm run update-chartjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ignacionelson/widgets-analyzer-for-elementor.git"
+  },
+  "keywords": ["wordpress", "plugin", "elementor", "widgets", "analyzer"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ignacionelson/widgets-analyzer-for-elementor/issues"
+  },
+  "homepage": "https://github.com/ignacionelson/widgets-analyzer-for-elementor#readme",
+  "dependencies": {
+    "chart.js": "^4.4.0"
+  }
+}

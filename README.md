@@ -1,4 +1,4 @@
-# Elementor Widgets Analyzer
+# Widgets Analyzer for Elementor
 
 A comprehensive WordPress plugin that analyzes and tracks Elementor widget usage across all content types in your WordPress site.
 
@@ -32,17 +32,40 @@ A comprehensive WordPress plugin that analyzes and tracks Elementor widget usage
 
 ## Installation
 
+### For End Users
+
 1. **Upload the Plugin**
-   - Upload the `elementor-widgets-analyzer` folder to your `/wp-content/plugins/` directory
+   - Upload the `widgets-analyzer-for-elementor` folder to your `/wp-content/plugins/` directory
    - Or zip the folder and upload via WordPress admin
 
 2. **Activate the Plugin**
    - Go to **Plugins** > **Installed Plugins**
-   - Find "Elementor Widgets Analyzer" and click **Activate**
+   - Find "Widgets Analyzer for Elementor" and click **Activate**
 
 3. **Access the Dashboard**
    - Navigate to **Widgets Analyzer** in your WordPress admin menu
    - The plugin requires Elementor to be installed and activated
+
+### For Developers
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/ignacionelson/widgets-analyzer-for-elementor.git
+   cd widgets-analyzer-for-elementor
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   npm run update-chartjs
+   ```
+
+3. **Build for Distribution**
+   ```bash
+   npm run build
+   ```
+
+**Note**: The plugin includes Chart.js locally to comply with WordPress plugin guidelines. Use `npm run update-chartjs` to update the local Chart.js file after updating dependencies.
 
 ## Usage
 
@@ -148,7 +171,7 @@ For support and feature requests, please contact the plugin developer.
 - Responsive design
 - Security features and data validation
 - **Export functionality**: Export analysis data in CSV and JSON formats
-- **Charts and graphs**: Interactive visualizations using Chart.js
+- **Charts and graphs**: Interactive visualizations using Chart.js (loaded locally)
   - Widget usage bar charts
   - Content types doughnut charts
   - Widget distribution pie charts

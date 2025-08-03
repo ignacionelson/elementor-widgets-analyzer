@@ -2,7 +2,7 @@
 /**
  * Main plugin class
  */
-class Elementor_Widgets_Analyzer {
+class Widgets_Analyzer_For_Elementor {
     
     /**
      * Constructor
@@ -318,7 +318,7 @@ class Elementor_Widgets_Analyzer {
             'export_info' => array(
                 'export_date' => current_time('Y-m-d H:i:s'),
                 'total_records' => count($data),
-                'export_type' => 'elementor_widgets_analyzer'
+                'export_type' => 'widgets_analyzer_for_elementor'
             ),
             'data' => $data
         );
