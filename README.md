@@ -147,6 +147,25 @@ For support and feature requests, please contact the plugin developer.
 - Modal popups for detailed views
 - Responsive design
 - Security features and data validation
+- **Export functionality**: Export analysis data in CSV and JSON formats
+- **Charts and graphs**: Interactive visualizations using Chart.js
+  - Widget usage bar charts
+  - Content types doughnut charts
+  - Widget distribution pie charts
+  - Top widgets bar charts
+  - Dashboard overview chart
+- **Advanced filtering and sorting**:
+  - Real-time search functionality for widgets and content types
+  - Sortable columns with visual indicators
+  - Multiple sort options (name, count, usage)
+  - Ascending/descending order controls
+  - Reset filters functionality
+  - Responsive filter layout
+- **Enhanced user experience**:
+  - Client-side filtering and sorting for instant results
+  - Debug logging for troubleshooting
+  - Improved responsive design for mobile devices
+  - Better visual feedback for sorting states
 
 ## License
 
