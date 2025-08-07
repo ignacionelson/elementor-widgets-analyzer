@@ -99,7 +99,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $analyzer = new EWA_Analyzer();
@@ -115,7 +115,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $database = new EWA_Database();
@@ -131,7 +131,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $widget_name = sanitize_text_field($_POST['widget_name']);
@@ -148,7 +148,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $database = new EWA_Database();
@@ -164,7 +164,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $post_type = sanitize_text_field($_POST['post_type']);
@@ -181,7 +181,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $format = sanitize_text_field($_POST['format']);
@@ -340,7 +340,7 @@ class Widgets_Analyzer_For_Elementor {
         check_ajax_referer('ewa_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'widgets-analyzer-for-elementor'));
         }
         
         $chart_type = sanitize_text_field($_POST['chart_type']);

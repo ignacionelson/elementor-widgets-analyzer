@@ -2,7 +2,7 @@
 
 A comprehensive WordPress plugin that analyzes and tracks Elementor widget usage across all content types in your WordPress site.
 
-> **Note**: This plugin was built as an experiment using [Cursor](https://cursor.sh), an AI-powered code editor, to explore the capabilities of AI-assisted development for WordPress plugins.
+> **Note**: This plugin was built as an experiment using [Cursor](https://cursor.sh), an AI-powered code editor, and [Google's Gemini](https://gemini.google.com), to explore the capabilities of AI-assisted development for WordPress plugins.
 
 ## Features
 
@@ -83,7 +83,7 @@ A comprehensive WordPress plugin that analyzes and tracks Elementor widget usage
 
 3. **View Results**
    - **Dashboard**: Overview of analysis results
-   - **Widget Statistics**: See which widgets are used most
+   - **Widget Statistics**: See which widgets are used most, and which are unused.
    - **Content Types**: Breakdown by post type
 
 ### Understanding the Results

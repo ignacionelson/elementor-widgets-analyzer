@@ -231,7 +231,7 @@ class EWA_Analyzer {
             // Count analyzed posts from database
             global $wpdb;
             $table_name = $wpdb->prefix . 'ewa_widget_analysis';
-            $analyzed = $wpdb->get_var($wpdb->prepare(
+            $analyzed = $wpdb->get_var($wpdb->prepare(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                 "SELECT COUNT(DISTINCT post_id) FROM {$table_name} WHERE post_type = %s",
                 $post_type
             ));

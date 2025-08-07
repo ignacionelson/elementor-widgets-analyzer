@@ -22,28 +22,28 @@ class EWA_Admin {
         
         ?>
         <div class="wrap">
-            <h1><?php _e('Widgets Analyzer for Elementor', 'widgets-analyzer-for-elementor'); ?></h1>
+            <h1><?php esc_html_e('Widgets Analyzer for Elementor', 'widgets-analyzer-for-elementor'); ?></h1>
             
             <nav class="nav-tab-wrapper">
                 <a href="?page=widgets-analyzer-for-elementor&tab=dashboard" 
                    class="nav-tab <?php echo $current_tab === 'dashboard' ? 'nav-tab-active' : ''; ?>">
-                    <?php _e('Dashboard', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Dashboard', 'widgets-analyzer-for-elementor'); ?>
                 </a>
                 <a href="?page=widgets-analyzer-for-elementor&tab=widgets" 
                    class="nav-tab <?php echo $current_tab === 'widgets' ? 'nav-tab-active' : ''; ?>">
-                    <?php _e('Widget Statistics', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Widget Statistics', 'widgets-analyzer-for-elementor'); ?>
                 </a>
                 <a href="?page=widgets-analyzer-for-elementor&tab=content-types" 
                    class="nav-tab <?php echo $current_tab === 'content-types' ? 'nav-tab-active' : ''; ?>">
-                    <?php _e('Content Types', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Content Types', 'widgets-analyzer-for-elementor'); ?>
                 </a>
                 <a href="?page=widgets-analyzer-for-elementor&tab=charts" 
                    class="nav-tab <?php echo $current_tab === 'charts' ? 'nav-tab-active' : ''; ?>">
-                    <?php _e('Charts & Graphs', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Charts & Graphs', 'widgets-analyzer-for-elementor'); ?>
                 </a>
                 <a href="?page=widgets-analyzer-for-elementor&tab=export" 
                    class="nav-tab <?php echo $current_tab === 'export' ? 'nav-tab-active' : ''; ?>">
-                    <?php _e('Export Data', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Export Data', 'widgets-analyzer-for-elementor'); ?>
                 </a>
             </nav>
             
@@ -89,33 +89,33 @@ class EWA_Admin {
         <div class="ewa-dashboard">
             <div class="ewa-summary-cards">
                 <div class="ewa-card">
-                    <h3><?php _e('Total Content Analyzed', 'widgets-analyzer-for-elementor'); ?></h3>
-                    <div class="ewa-number"><?php echo $summary['total_content'] ?: 0; ?></div>
+                    <h3><?php esc_html_e('Total Content Analyzed', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <div class="ewa-number"><?php echo esc_html($summary['total_content']) ?: 0; ?></div>
                 </div>
                 <div class="ewa-card">
-                    <h3><?php _e('Unique Widgets Found', 'widgets-analyzer-for-elementor'); ?></h3>
-                    <div class="ewa-number"><?php echo $summary['total_widgets'] ?: 0; ?></div>
+                    <h3><?php esc_html_e('Unique Widgets Found', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <div class="ewa-number"><?php echo esc_html($summary['total_widgets']) ?: 0; ?></div>
                 </div>
                 <div class="ewa-card">
-                    <h3><?php _e('Total Widget Instances', 'widgets-analyzer-for-elementor'); ?></h3>
-                    <div class="ewa-number"><?php echo $summary['total_instances'] ?: 0; ?></div>
+                    <h3><?php esc_html_e('Total Widget Instances', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <div class="ewa-number"><?php echo esc_html($summary['total_instances']) ?: 0; ?></div>
                 </div>
                 <div class="ewa-card">
-                    <h3><?php _e('Content Types', 'widgets-analyzer-for-elementor'); ?></h3>
-                    <div class="ewa-number"><?php echo $summary['content_types'] ?: 0; ?></div>
+                    <h3><?php esc_html_e('Content Types', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <div class="ewa-number"><?php echo esc_html($summary['content_types']) ?: 0; ?></div>
                 </div>
             </div>
             
             <div class="ewa-actions">
                 <button id="ewa-analyze-btn" class="button button-primary button-large">
-                    <?php _e('Run Analysis', 'widgets-analyzer-for-elementor'); ?>
+                    <?php esc_html_e('Run Analysis', 'widgets-analyzer-for-elementor'); ?>
                 </button>
                 <?php if ($has_data): ?>
                     <button id="ewa-clear-btn" class="button button-secondary button-large">
-                        <?php _e('Clear Data', 'widgets-analyzer-for-elementor'); ?>
+                        <?php esc_html_e('Clear Data', 'widgets-analyzer-for-elementor'); ?>
                     </button>
                     <button id="ewa-export-btn" class="button button-secondary button-large">
-                        <?php _e('Export Data', 'widgets-analyzer-for-elementor'); ?>
+                        <?php esc_html_e('Export Data', 'widgets-analyzer-for-elementor'); ?>
                     </button>
                 <?php endif; ?>
             </div>
@@ -124,19 +124,20 @@ class EWA_Admin {
                 <div class="ewa-progress-bar">
                     <div class="ewa-progress-fill"></div>
                 </div>
-                <div class="ewa-progress-text"><?php _e('Analyzing content...', 'widgets-analyzer-for-elementor'); ?></div>
+                <div class="ewa-progress-text"><?php esc_html_e('Analyzing content...', 'widgets-analyzer-for-elementor'); ?></div>
             </div>
             
             <?php if ($has_data && $summary['last_analysis']): ?>
+                <?php $last_analysis_date = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $summary['last_analysis'] ) ); ?>
                 <div class="ewa-last-analysis">
-                    <p><?php printf(__('Last analysis: %s', 'widgets-analyzer-for-elementor'), 
-                        date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($summary['last_analysis']))); ?></p>
+                    <?php /* translators: %s: Last analysis date. */ ?>
+                    <p><?php echo wp_kses_post( sprintf( __( 'Last analysis: %s', 'widgets-analyzer-for-elementor' ), '<strong>' . esc_html( $last_analysis_date ) . '</strong>' ) ); ?></p>
                 </div>
             <?php endif; ?>
             
             <?php if ($has_data): ?>
                 <div class="ewa-dashboard-chart">
-                    <h3><?php _e('Quick Overview Chart', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <h3><?php esc_html_e('Quick Overview Chart', 'widgets-analyzer-for-elementor'); ?></h3>
                     <div class="ewa-chart-wrapper" style="height: 250px;">
                         <canvas id="ewa-dashboard-overview-chart"></canvas>
                     </div>
@@ -186,41 +187,41 @@ class EWA_Admin {
 
         ?>
         <div class="ewa-widgets-tab">
-            <h2><?php _e('Widget Usage Statistics', 'widgets-analyzer-for-elementor'); ?></h2>
+            <h2><?php esc_html_e('Widget Usage Statistics', 'widgets-analyzer-for-elementor'); ?></h2>
             
             <?php if (empty($all_widgets)): ?>
-                <p><?php _e('No Elementor widgets found or analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
+                <p><?php esc_html_e('No Elementor widgets found or analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
             <?php else: ?>
                 <div class="ewa-filters">
                     <div class="ewa-filter-group">
-                        <label for="ewa-widget-search"><?php _e('Search Widgets:', 'widgets-analyzer-for-elementor'); ?></label>
-                        <input type="text" id="ewa-widget-search" placeholder="<?php _e('Search by widget name...', 'widgets-analyzer-for-elementor'); ?>" />
+                        <label for="ewa-widget-search"><?php esc_html_e('Search Widgets:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <input type="text" id="ewa-widget-search" placeholder="<?php esc_html_e('Search by widget name...', 'widgets-analyzer-for-elementor'); ?>" />
                     </div>
                     <div class="ewa-filter-group">
-                        <label for="ewa-widget-status-filter"><?php _e('Show:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <label for="ewa-widget-status-filter"><?php esc_html_e('Show:', 'widgets-analyzer-for-elementor'); ?></label>
                         <select id="ewa-widget-status-filter">
-                            <option value="used" <?php selected($has_data, true); ?>><?php _e('Used Widgets', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="unused"><?php _e('Unused Widgets', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="all"><?php _e('All Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="used" <?php selected($has_data, true); ?>><?php esc_html_e('Used Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="unused"><?php esc_html_e('Unused Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="all"><?php esc_html_e('All Widgets', 'widgets-analyzer-for-elementor'); ?></option>
                         </select>
                     </div>
                     <div class="ewa-filter-group">
-                        <label for="ewa-widget-sort"><?php _e('Sort by:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <label for="ewa-widget-sort"><?php esc_html_e('Sort by:', 'widgets-analyzer-for-elementor'); ?></label>
                         <select id="ewa-widget-sort">
-                            <option value="widget_name"><?php _e('Widget Name', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="content_count"><?php _e('Content Count', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="total_usage"><?php _e('Total Usage', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="widget_name"><?php esc_html_e('Widget Name', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="content_count"><?php esc_html_e('Content Count', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="total_usage"><?php esc_html_e('Total Usage', 'widgets-analyzer-for-elementor'); ?></option>
                         </select>
                     </div>
                     <div class="ewa-filter-group">
-                        <label for="ewa-widget-order"><?php _e('Order:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <label for="ewa-widget-order"><?php esc_html_e('Order:', 'widgets-analyzer-for-elementor'); ?></label>
                         <select id="ewa-widget-order">
-                            <option value="asc"><?php _e('Ascending', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="desc"><?php _e('Descending', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="asc"><?php esc_html_e('Ascending', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="desc"><?php esc_html_e('Descending', 'widgets-analyzer-for-elementor'); ?></option>
                         </select>
                     </div>
                     <div class="ewa-filter-group">
-                        <button id="ewa-widget-reset-filters" class="button"><?php _e('Reset Filters', 'widgets-analyzer-for-elementor'); ?></button>
+                        <button id="ewa-widget-reset-filters" class="button"><?php esc_html_e('Reset Filters', 'widgets-analyzer-for-elementor'); ?></button>
                     </div>
                 </div>
                 
@@ -228,17 +229,17 @@ class EWA_Admin {
                     <table id="ewa-widgets-table" class="wp-list-table widefat fixed striped">
                         <thead>
                             <tr>
-                                <th class="ewa-sortable" data-sort="widget_name"><?php _e('Widget', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th class="ewa-sortable" data-sort="content_count"><?php _e('Content Count', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th class="ewa-sortable" data-sort="total_usage"><?php _e('Total Usage', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th><?php _e('Content Types', 'widgets-analyzer-for-elementor'); ?></th>
-                                <th><?php _e('Actions', 'widgets-analyzer-for-elementor'); ?></th>
+                                <th class="ewa-sortable" data-sort="widget_name"><?php esc_html_e('Widget', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th class="ewa-sortable" data-sort="content_count"><?php esc_html_e('Content Count', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th class="ewa-sortable" data-sort="total_usage"><?php esc_html_e('Total Usage', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th><?php esc_html_e('Content Types', 'widgets-analyzer-for-elementor'); ?></th>
+                                <th><?php esc_html_e('Actions', 'widgets-analyzer-for-elementor'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($all_widgets)): ?>
                                 <tr>
-                                    <td colspan="5"><?php _e('No widgets found.', 'widgets-analyzer-for-elementor'); ?></td>
+                                    <td colspan="5"><?php esc_html_e('No widgets found.', 'widgets-analyzer-for-elementor'); ?></td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($all_widgets as $widget): ?>
@@ -254,10 +255,10 @@ class EWA_Admin {
                                             <?php if ($widget['status'] === 'used'): ?>
                                                 <button class="button button-small ewa-view-details" 
                                                         data-widget="<?php echo esc_attr($widget['name']); ?>">
-                                                    <?php _e('View Details', 'widgets-analyzer-for-elementor'); ?>
+                                                    <?php esc_html_e('View Details', 'widgets-analyzer-for-elementor'); ?>
                                                 </button>
                                             <?php else: ?>
-                                                <span class="ewa-unused-tag"><?php _e('Unused', 'widgets-analyzer-for-elementor'); ?></span>
+                                                <span class="ewa-unused-tag"><?php esc_html_e('Unused', 'widgets-analyzer-for-elementor'); ?></span>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -278,34 +279,34 @@ class EWA_Admin {
         $content_types_stats = $this->database->get_content_types_stats();
         ?>
         <div class="ewa-content-types-tab">
-            <h2><?php _e('Content Types Analysis', 'widgets-analyzer-for-elementor'); ?></h2>
+            <h2><?php esc_html_e('Content Types Analysis', 'widgets-analyzer-for-elementor'); ?></h2>
             
             <?php if (empty($content_types_stats)): ?>
-                <p><?php _e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
+                <p><?php esc_html_e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
             <?php else: ?>
                 <div class="ewa-filters">
                     <div class="ewa-filter-group">
-                        <label for="ewa-content-type-search"><?php _e('Search Content Types:', 'widgets-analyzer-for-elementor'); ?></label>
-                        <input type="text" id="ewa-content-type-search" placeholder="<?php _e('Search by content type...', 'widgets-analyzer-for-elementor'); ?>" />
+                        <label for="ewa-content-type-search"><?php esc_html_e('Search Content Types:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <input type="text" id="ewa-content-type-search" placeholder="<?php esc_html_e('Search by content type...', 'widgets-analyzer-for-elementor'); ?>" />
                     </div>
                     <div class="ewa-filter-group">
-                        <label for="ewa-content-type-sort"><?php _e('Sort by:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <label for="ewa-content-type-sort"><?php esc_html_e('Sort by:', 'widgets-analyzer-for-elementor'); ?></label>
                         <select id="ewa-content-type-sort">
-                            <option value="post_type"><?php _e('Content Type', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="content_count"><?php _e('Content Count', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="unique_widgets"><?php _e('Unique Widgets', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="total_widgets"><?php _e('Total Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="post_type"><?php esc_html_e('Content Type', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="content_count"><?php esc_html_e('Content Count', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="unique_widgets"><?php esc_html_e('Unique Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="total_widgets"><?php esc_html_e('Total Widgets', 'widgets-analyzer-for-elementor'); ?></option>
                         </select>
                     </div>
                     <div class="ewa-filter-group">
-                        <label for="ewa-content-type-order"><?php _e('Order:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <label for="ewa-content-type-order"><?php esc_html_e('Order:', 'widgets-analyzer-for-elementor'); ?></label>
                         <select id="ewa-content-type-order">
-                            <option value="asc"><?php _e('Ascending', 'widgets-analyzer-for-elementor'); ?></option>
-                            <option value="desc"><?php _e('Descending', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="asc"><?php esc_html_e('Ascending', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="desc"><?php esc_html_e('Descending', 'widgets-analyzer-for-elementor'); ?></option>
                         </select>
                     </div>
                     <div class="ewa-filter-group">
-                        <button id="ewa-content-type-reset-filters" class="button"><?php _e('Reset Filters', 'widgets-analyzer-for-elementor'); ?></button>
+                        <button id="ewa-content-type-reset-filters" class="button"><?php esc_html_e('Reset Filters', 'widgets-analyzer-for-elementor'); ?></button>
                     </div>
                 </div>
                 
@@ -313,11 +314,11 @@ class EWA_Admin {
                     <table id="ewa-content-types-table" class="wp-list-table widefat fixed striped">
                         <thead>
                             <tr>
-                                <th class="ewa-sortable" data-sort="post_type"><?php _e('Content Type', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th class="ewa-sortable" data-sort="content_count"><?php _e('Content Count', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th class="ewa-sortable" data-sort="unique_widgets"><?php _e('Unique Widgets', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th class="ewa-sortable" data-sort="total_widgets"><?php _e('Total Widgets', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
-                                <th><?php _e('Actions', 'widgets-analyzer-for-elementor'); ?></th>
+                                <th class="ewa-sortable" data-sort="post_type"><?php esc_html_e('Content Type', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th class="ewa-sortable" data-sort="content_count"><?php esc_html_e('Content Count', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th class="ewa-sortable" data-sort="unique_widgets"><?php esc_html_e('Unique Widgets', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th class="ewa-sortable" data-sort="total_widgets"><?php esc_html_e('Total Widgets', 'widgets-analyzer-for-elementor'); ?> <span class="ewa-sort-indicator"></span></th>
+                                <th><?php esc_html_e('Actions', 'widgets-analyzer-for-elementor'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -333,7 +334,7 @@ class EWA_Admin {
                                     <td>
                                         <button class="button button-small ewa-view-content-type" 
                                                 data-post-type="<?php echo esc_attr($content_type->post_type); ?>">
-                                            <?php _e('View Widgets', 'widgets-analyzer-for-elementor'); ?>
+                                            <?php esc_html_e('View Widgets', 'widgets-analyzer-for-elementor'); ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -352,67 +353,67 @@ class EWA_Admin {
     private function render_export_tab($has_data) {
         ?>
         <div class="ewa-export-tab">
-            <h2><?php _e('Export Analysis Data', 'widgets-analyzer-for-elementor'); ?></h2>
+            <h2><?php esc_html_e('Export Analysis Data', 'widgets-analyzer-for-elementor'); ?></h2>
             
             <?php if (!$has_data): ?>
                 <div class="ewa-notice ewa-notice-error">
-                    <p><?php _e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
+                    <p><?php esc_html_e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
                 </div>
             <?php else: ?>
                 <div class="ewa-export-options">
-                    <h3><?php _e('Export Options', 'widgets-analyzer-for-elementor'); ?></h3>
+                    <h3><?php esc_html_e('Export Options', 'widgets-analyzer-for-elementor'); ?></h3>
                     
                     <div class="ewa-export-section">
-                        <h4><?php _e('Export Format', 'widgets-analyzer-for-elementor'); ?></h4>
+                        <h4><?php esc_html_e('Export Format', 'widgets-analyzer-for-elementor'); ?></h4>
                         <div class="ewa-export-format">
                             <label>
                                 <input type="radio" name="export_format" value="csv" checked>
-                                <?php _e('CSV (Comma Separated Values)', 'widgets-analyzer-for-elementor'); ?>
+                                <?php esc_html_e('CSV (Comma Separated Values)', 'widgets-analyzer-for-elementor'); ?>
                             </label>
                             <label>
                                 <input type="radio" name="export_format" value="json">
-                                <?php _e('JSON (JavaScript Object Notation)', 'widgets-analyzer-for-elementor'); ?>
+                                <?php esc_html_e('JSON (JavaScript Object Notation)', 'widgets-analyzer-for-elementor'); ?>
                             </label>
                         </div>
                     </div>
                     
                     <div class="ewa-export-section">
-                        <h4><?php _e('Export Type', 'widgets-analyzer-for-elementor'); ?></h4>
+                        <h4><?php esc_html_e('Export Type', 'widgets-analyzer-for-elementor'); ?></h4>
                         <div class="ewa-export-type">
                             <label>
                                 <input type="radio" name="export_type" value="all" checked>
-                                <?php _e('All Data (Complete analysis results)', 'widgets-analyzer-for-elementor'); ?>
+                                <?php esc_html_e('All Data (Complete analysis results)', 'widgets-analyzer-for-elementor'); ?>
                             </label>
                             <label>
                                 <input type="radio" name="export_type" value="widgets">
-                                <?php _e('Widget Statistics Only', 'widgets-analyzer-for-elementor'); ?>
+                                <?php esc_html_e('Widget Statistics Only', 'widgets-analyzer-for-elementor'); ?>
                             </label>
                             <label>
                                 <input type="radio" name="export_type" value="content_types">
-                                <?php _e('Content Types Analysis Only', 'widgets-analyzer-for-elementor'); ?>
+                                <?php esc_html_e('Content Types Analysis Only', 'widgets-analyzer-for-elementor'); ?>
                             </label>
                         </div>
                     </div>
                     
                     <div class="ewa-export-actions">
                         <button id="ewa-export-download-btn" class="button button-primary button-large">
-                            <?php _e('Download Export', 'widgets-analyzer-for-elementor'); ?>
+                            <?php esc_html_e('Download Export', 'widgets-analyzer-for-elementor'); ?>
                         </button>
                         <div id="ewa-export-status" class="ewa-export-status" style="display: none;">
                             <span class="ewa-export-spinner"></span>
-                            <span class="ewa-export-text"><?php _e('Preparing export...', 'widgets-analyzer-for-elementor'); ?></span>
+                            <span class="ewa-export-text"><?php esc_html_e('Preparing export...', 'widgets-analyzer-for-elementor'); ?></span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="ewa-export-info">
-                    <h4><?php _e('Export Information', 'widgets-analyzer-for-elementor'); ?></h4>
+                    <h4><?php esc_html_e('Export Information', 'widgets-analyzer-for-elementor'); ?></h4>
                     <ul>
-                        <li><strong><?php _e('CSV Format:', 'widgets-analyzer-for-elementor'); ?></strong> <?php _e('Compatible with Excel, Google Sheets, and other spreadsheet applications.', 'widgets-analyzer-for-elementor'); ?></li>
-                        <li><strong><?php _e('JSON Format:', 'widgets-analyzer-for-elementor'); ?></strong> <?php _e('Suitable for data processing, APIs, and custom applications.', 'widgets-analyzer-for-elementor'); ?></li>
-                        <li><strong><?php _e('All Data:', 'widgets-analyzer-for-elementor'); ?></strong> <?php _e('Complete analysis results including all content and widget details.', 'widgets-analyzer-for-elementor'); ?></li>
-                        <li><strong><?php _e('Widget Statistics:', 'widgets-analyzer-for-elementor'); ?></strong> <?php _e('Summary of widget usage across all content types.', 'widgets-analyzer-for-elementor'); ?></li>
-                        <li><strong><?php _e('Content Types:', 'widgets-analyzer-for-elementor'); ?></strong> <?php _e('Analysis breakdown by post type (posts, pages, custom post types).', 'widgets-analyzer-for-elementor'); ?></li>
+                        <li><strong><?php esc_html_e('CSV Format:', 'widgets-analyzer-for-elementor'); ?></strong> <?php esc_html_e('Compatible with Excel, Google Sheets, and other spreadsheet applications.', 'widgets-analyzer-for-elementor'); ?></li>
+                        <li><strong><?php esc_html_e('JSON Format:', 'widgets-analyzer-for-elementor'); ?></strong> <?php esc_html_e('Suitable for data processing, APIs, and custom applications.', 'widgets-analyzer-for-elementor'); ?></li>
+                        <li><strong><?php esc_html_e('All Data:', 'widgets-analyzer-for-elementor'); ?></strong> <?php esc_html_e('Complete analysis results including all content and widget details.', 'widgets-analyzer-for-elementor'); ?></li>
+                        <li><strong><?php esc_html_e('Widget Statistics:', 'widgets-analyzer-for-elementor'); ?></strong> <?php esc_html_e('Summary of widget usage across all content types.', 'widgets-analyzer-for-elementor'); ?></li>
+                        <li><strong><?php esc_html_e('Content Types:', 'widgets-analyzer-for-elementor'); ?></strong> <?php esc_html_e('Analysis breakdown by post type (posts, pages, custom post types).', 'widgets-analyzer-for-elementor'); ?></li>
                     </ul>
                 </div>
             <?php endif; ?>
@@ -426,37 +427,37 @@ class EWA_Admin {
     private function render_charts_tab($has_data) {
         ?>
         <div class="ewa-charts-tab">
-            <h2><?php _e('Charts & Graphs', 'widgets-analyzer-for-elementor'); ?></h2>
+            <h2><?php esc_html_e('Charts & Graphs', 'widgets-analyzer-for-elementor'); ?></h2>
             
             <?php if (!$has_data): ?>
                 <div class="ewa-notice ewa-notice-error">
-                    <p><?php _e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
+                    <p><?php esc_html_e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
                 </div>
             <?php else: ?>
                 <div class="ewa-charts-container">
                     <div class="ewa-chart-section">
-                        <h3><?php _e('Widget Usage Overview', 'widgets-analyzer-for-elementor'); ?></h3>
+                        <h3><?php esc_html_e('Widget Usage Overview', 'widgets-analyzer-for-elementor'); ?></h3>
                         <div class="ewa-chart-wrapper">
                             <canvas id="ewa-widget-usage-chart"></canvas>
                         </div>
                     </div>
                     
                     <div class="ewa-chart-section">
-                        <h3><?php _e('Content Types Distribution', 'widgets-analyzer-for-elementor'); ?></h3>
+                        <h3><?php esc_html_e('Content Types Distribution', 'widgets-analyzer-for-elementor'); ?></h3>
                         <div class="ewa-chart-wrapper">
                             <canvas id="ewa-content-types-chart"></canvas>
                         </div>
                     </div>
                     
                     <div class="ewa-chart-section">
-                        <h3><?php _e('Widget Distribution (Top 10)', 'widgets-analyzer-for-elementor'); ?></h3>
+                        <h3><?php esc_html_e('Widget Distribution (Top 10)', 'widgets-analyzer-for-elementor'); ?></h3>
                         <div class="ewa-chart-wrapper">
                             <canvas id="ewa-widget-distribution-chart"></canvas>
                         </div>
                     </div>
                     
                     <div class="ewa-chart-section">
-                        <h3><?php _e('Top Widgets Bar Chart', 'widgets-analyzer-for-elementor'); ?></h3>
+                        <h3><?php esc_html_e('Top Widgets Bar Chart', 'widgets-analyzer-for-elementor'); ?></h3>
                         <div class="ewa-chart-wrapper">
                             <canvas id="ewa-top-widgets-chart"></canvas>
                         </div>
@@ -465,11 +466,11 @@ class EWA_Admin {
                 
                 <div class="ewa-charts-controls">
                     <button id="ewa-refresh-charts" class="button button-secondary">
-                        <?php _e('Refresh Charts', 'widgets-analyzer-for-elementor'); ?>
+                        <?php esc_html_e('Refresh Charts', 'widgets-analyzer-for-elementor'); ?>
                     </button>
                     <div id="ewa-charts-loading" class="ewa-charts-loading" style="display: none;">
                         <span class="ewa-spinner"></span>
-                        <span><?php _e('Loading charts...', 'widgets-analyzer-for-elementor'); ?></span>
+                        <span><?php esc_html_e('Loading charts...', 'widgets-analyzer-for-elementor'); ?></span>
                     </div>
                 </div>
             <?php endif; ?>

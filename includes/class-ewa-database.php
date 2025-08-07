@@ -43,7 +43,7 @@ class EWA_Database {
      */
     public function clear_analysis_data() {
         global $wpdb;
-        return $wpdb->query("DELETE FROM {$this->table_name}");
+        return $wpdb->query("DELETE FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -52,7 +52,7 @@ class EWA_Database {
     public function insert_widget_data($post_id, $post_type, $post_title, $widget_name, $widget_count = 1) {
         global $wpdb;
         
-        return $wpdb->insert(
+        return $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
             $this->table_name,
             array(
                 'post_id' => $post_id,
@@ -80,7 +80,7 @@ class EWA_Database {
                 GROUP BY widget_name
                 ORDER BY total_usage DESC";
         
-        return $wpdb->get_results($sql);
+        return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -102,7 +102,7 @@ class EWA_Database {
             $widget_name
         );
         
-        return $wpdb->get_results($sql);
+        return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -123,7 +123,7 @@ class EWA_Database {
             $post_type
         );
         
-        return $wpdb->get_results($sql);
+        return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -141,7 +141,7 @@ class EWA_Database {
                 GROUP BY post_type
                 ORDER BY content_count DESC";
         
-        return $wpdb->get_results($sql);
+        return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -153,19 +153,19 @@ class EWA_Database {
         $summary = array();
         
         // Total content analyzed
-        $summary['total_content'] = $wpdb->get_var("SELECT COUNT(DISTINCT post_id) FROM {$this->table_name}");
+        $summary['total_content'] = $wpdb->get_var("SELECT COUNT(DISTINCT post_id) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         
         // Total unique widgets
-        $summary['total_widgets'] = $wpdb->get_var("SELECT COUNT(DISTINCT widget_name) FROM {$this->table_name}");
+        $summary['total_widgets'] = $wpdb->get_var("SELECT COUNT(DISTINCT widget_name) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         
         // Total widget instances
-        $summary['total_instances'] = $wpdb->get_var("SELECT SUM(widget_count) FROM {$this->table_name}");
+        $summary['total_instances'] = $wpdb->get_var("SELECT SUM(widget_count) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         
         // Content types count
-        $summary['content_types'] = $wpdb->get_var("SELECT COUNT(DISTINCT post_type) FROM {$this->table_name}");
+        $summary['content_types'] = $wpdb->get_var("SELECT COUNT(DISTINCT post_type) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         
         // Last analysis date
-        $summary['last_analysis'] = $wpdb->get_var("SELECT MAX(analysis_date) FROM {$this->table_name}");
+        $summary['last_analysis'] = $wpdb->get_var("SELECT MAX(analysis_date) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
         
         return $summary;
     }
@@ -175,7 +175,7 @@ class EWA_Database {
      */
     public function has_analysis_data() {
         global $wpdb;
-        return (bool) $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}");
+        return (bool) $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}"); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
     
     /**
@@ -194,6 +194,6 @@ class EWA_Database {
                 FROM {$this->table_name}
                 ORDER BY analysis_date DESC, post_id ASC";
         
-        return $wpdb->get_results($sql);
+        return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
     }
 } 

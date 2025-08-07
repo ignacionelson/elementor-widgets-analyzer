@@ -34,7 +34,7 @@ function ewa_init() {
     if (!did_action('elementor/loaded')) {
         add_action('admin_notices', function() {
             echo '<div class="notice notice-error"><p>' . 
-                 __('Widgets Analyzer for Elementor requires Elementor to be installed and activated.', 'widgets-analyzer-for-elementor') . 
+                esc_html__('Widgets Analyzer for Elementor requires Elementor to be installed and activated.', 'widgets-analyzer-for-elementor') . 
                  '</p></div>';
         });
         return;
