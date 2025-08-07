@@ -189,6 +189,19 @@ class EWA_Analyzer {
         // Fallback for custom post types
         return ucwords(str_replace(array('-', '_'), ' ', $post_type));
     }
+
+    /**
+     * Get all registered Elementor widgets.
+     * @return \Elementor\Widget_Base[]
+     */
+    public function get_all_registered_widgets() {
+        if (!class_exists('\Elementor\Plugin')) {
+            return [];
+        }
+        
+        $widget_manager = \Elementor\Plugin::$instance->widgets_manager;
+        return $widget_manager->get_widget_types();
+    }
     
     /**
      * Get analysis progress

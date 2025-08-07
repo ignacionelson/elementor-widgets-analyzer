@@ -150,18 +150,59 @@ class EWA_Admin {
      * Render widgets tab
      */
     private function render_widgets_tab() {
-        $widget_stats = $this->database->get_widget_statistics();
+        $used_widgets_stats = $this->database->get_widget_statistics();
+        $all_registered_widgets = $this->analyzer->get_all_registered_widgets();
+        $has_data = !empty($used_widgets_stats);
+
+        $used_widget_names = array_map(function($widget) {
+            return $widget->widget_name;
+        }, $used_widgets_stats);
+
+        $all_widgets = [];
+        foreach ($used_widgets_stats as $widget) {
+            $all_widgets[$widget->widget_name] = [
+                'display_name' => $this->analyzer->get_widget_display_name($widget->widget_name),
+                'name' => $widget->widget_name,
+                'content_count' => $widget->content_count,
+                'total_usage' => $widget->total_usage,
+                'post_types' => str_replace(',', ', ', $widget->post_types),
+                'status' => 'used'
+            ];
+        }
+
+        foreach ($all_registered_widgets as $widget) {
+            $widget_name = $widget->get_name();
+            if (!in_array($widget_name, $used_widget_names)) {
+                $all_widgets[$widget_name] = [
+                    'display_name' => $widget->get_title(),
+                    'name' => $widget_name,
+                    'content_count' => 0,
+                    'total_usage' => 0,
+                    'post_types' => '—',
+                    'status' => 'unused'
+                ];
+            }
+        }
+
         ?>
         <div class="ewa-widgets-tab">
             <h2><?php _e('Widget Usage Statistics', 'widgets-analyzer-for-elementor'); ?></h2>
             
-            <?php if (empty($widget_stats)): ?>
-                <p><?php _e('No analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
+            <?php if (empty($all_widgets)): ?>
+                <p><?php _e('No Elementor widgets found or analysis data available. Please run the analysis first.', 'widgets-analyzer-for-elementor'); ?></p>
             <?php else: ?>
                 <div class="ewa-filters">
                     <div class="ewa-filter-group">
                         <label for="ewa-widget-search"><?php _e('Search Widgets:', 'widgets-analyzer-for-elementor'); ?></label>
                         <input type="text" id="ewa-widget-search" placeholder="<?php _e('Search by widget name...', 'widgets-analyzer-for-elementor'); ?>" />
+                    </div>
+                    <div class="ewa-filter-group">
+                        <label for="ewa-widget-status-filter"><?php _e('Show:', 'widgets-analyzer-for-elementor'); ?></label>
+                        <select id="ewa-widget-status-filter">
+                            <option value="used" <?php selected($has_data, true); ?>><?php _e('Used Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="unused"><?php _e('Unused Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                            <option value="all"><?php _e('All Widgets', 'widgets-analyzer-for-elementor'); ?></option>
+                        </select>
                     </div>
                     <div class="ewa-filter-group">
                         <label for="ewa-widget-sort"><?php _e('Sort by:', 'widgets-analyzer-for-elementor'); ?></label>
@@ -195,23 +236,33 @@ class EWA_Admin {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($widget_stats as $widget): ?>
+                            <?php if (empty($all_widgets)): ?>
                                 <tr>
-                                    <td>
-                                        <strong><?php echo esc_html($this->analyzer->get_widget_display_name($widget->widget_name)); ?></strong>
-                                        <br><small><?php echo esc_html($widget->widget_name); ?></small>
-                                    </td>
-                                    <td><?php echo esc_html($widget->content_count); ?></td>
-                                    <td><?php echo esc_html($widget->total_usage); ?></td>
-                                    <td><?php echo esc_html(str_replace(',', ', ', $widget->post_types)); ?></td>
-                                    <td>
-                                        <button class="button button-small ewa-view-details" 
-                                                data-widget="<?php echo esc_attr($widget->widget_name); ?>">
-                                            <?php _e('View Details', 'widgets-analyzer-for-elementor'); ?>
-                                        </button>
-                                    </td>
+                                    <td colspan="5"><?php _e('No widgets found.', 'widgets-analyzer-for-elementor'); ?></td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach ($all_widgets as $widget): ?>
+                                    <tr data-status="<?php echo esc_attr($widget['status']); ?>" style="<?php echo ($has_data && $widget['status'] === 'unused') ? 'display: none;' : ''; ?>">
+                                        <td>
+                                            <strong><?php echo esc_html($widget['display_name']); ?></strong>
+                                            <br><small><?php echo esc_html($widget['name']); ?></small>
+                                        </td>
+                                        <td><?php echo esc_html($widget['content_count']); ?></td>
+                                        <td><?php echo esc_html($widget['total_usage']); ?></td>
+                                        <td><?php echo esc_html($widget['post_types']); ?></td>
+                                        <td>
+                                            <?php if ($widget['status'] === 'used'): ?>
+                                                <button class="button button-small ewa-view-details" 
+                                                        data-widget="<?php echo esc_attr($widget['name']); ?>">
+                                                    <?php _e('View Details', 'widgets-analyzer-for-elementor'); ?>
+                                                </button>
+                                            <?php else: ?>
+                                                <span class="ewa-unused-tag"><?php _e('Unused', 'widgets-analyzer-for-elementor'); ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

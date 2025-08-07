@@ -420,6 +420,7 @@ jQuery(document).ready(function($) {
         var $sort = $('#ewa-widget-sort');
         var $order = $('#ewa-widget-order');
         var $reset = $('#ewa-widget-reset-filters');
+        var $statusFilter = $('#ewa-widget-status-filter');
         
         console.log('Initializing widgets table:', {
             tableExists: $table.length,
@@ -427,6 +428,7 @@ jQuery(document).ready(function($) {
             sortExists: $sort.length,
             orderExists: $order.length,
             resetExists: $reset.length,
+            statusFilterExists: $statusFilter.length,
             alreadyInitialized: $table.data('initialized')
         });
         
@@ -447,15 +449,24 @@ jQuery(document).ready(function($) {
                 widget_name_raw: $row.find('td:first strong').text(),
                 content_count: parseInt($row.find('td:nth-child(2)').text()) || 0,
                 total_usage: parseInt($row.find('td:nth-child(3)').text()) || 0,
-                post_types: $row.find('td:nth-child(4)').text()
+                post_types: $row.find('td:nth-child(4)').text(),
+                status: $row.data('status')
             };
             originalData.push(rowData);
         });
         
         filteredData = originalData.slice();
         
+        // Initial filter based on status
+        filterAndSortData();
+
         // Search functionality
         $search.off('input').on('input', function() {
+            filterAndSortData();
+        });
+
+        // Status filter functionality
+        $statusFilter.off('change').on('change', function() {
             filterAndSortData();
         });
         
@@ -473,9 +484,8 @@ jQuery(document).ready(function($) {
             $search.val('');
             $sort.val('widget_name');
             $order.val('asc');
-            filteredData = originalData.slice();
-            updateTable();
-            updateSortIndicators();
+            $statusFilter.val('used');
+            filterAndSortData();
         });
         
         // Column header sorting
@@ -504,13 +514,18 @@ jQuery(document).ready(function($) {
             var searchTerm = $search.val().toLowerCase();
             var sortField = $sort.val();
             var sortOrder = $order.val();
-            
-            console.log('Filtering widgets:', { searchTerm, sortField, sortOrder });
+            var status = $statusFilter.val();
+
+            console.log('Filtering widgets:', { searchTerm, sortField, sortOrder, status });
             
             // Filter data
             filteredData = originalData.filter(function(item) {
-                return item.widget_name.includes(searchTerm) || 
-                    item.widget_name_raw.toLowerCase().includes(searchTerm);
+                var matchesSearch = item.widget_name.includes(searchTerm) || 
+                                    item.widget_name_raw.toLowerCase().includes(searchTerm);
+                
+                var matchesStatus = (status === 'all') || (item.status === status);
+
+                return matchesSearch && matchesStatus;
             });
             
             console.log('Filtered data count:', filteredData.length);
@@ -538,9 +553,22 @@ jQuery(document).ready(function($) {
             var $tbody = $table.find('tbody');
             $tbody.empty();
             
-            filteredData.forEach(function(item) {
-                $tbody.append(item.element.clone());
-            });
+            if (filteredData.length === 0) {
+                var colCount = $table.find('thead th').length;
+                $tbody.append('<tr><td colspan="' + colCount + '">' + ewa_ajax.strings.no_widgets_found + '</td></tr>');
+            } else {
+                filteredData.forEach(function(item) {
+                    // We need to re-clone from originalData to avoid losing the element
+                    var originalItem = originalData.find(function(orig) {
+                        return orig.widget_name_raw === item.widget_name_raw;
+                    });
+                    if (originalItem) {
+                        var $clonedRow = originalItem.element.clone();
+                        $clonedRow.show(); // Ensure it's visible
+                        $tbody.append($clonedRow);
+                    }
+                });
+            }
             
             // Reattach event handlers for view details buttons
             $tbody.find('.ewa-view-details').on('click', function() {
